@@ -1,0 +1,5 @@
+{
+  "name": "ChurchDesk",
+  "description": "A web-based platform for church departments to manage payment requisitions, including submission, multi-level approval workflows, payment tracking, and reporting. Designed to be mobile-friendly and role-based for efficient financial management.",
+  "requestFramePermissions": []
+}
