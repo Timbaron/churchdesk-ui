@@ -49,7 +49,7 @@ Stores user account information.
 | `role`         | `enum`       | User's role (`Role` enum).                         |
 | `departmentId` | `integer`    | Foreign key to `departments`. Nullable.            |
 | `sectionId`    | `integer`    | Foreign key to `sections`. Nullable.               |
-| `churchId`     | `integer`    | Foreign key to `churches`.                         |
+| `church_id`     | `integer`    | Foreign key to `churches`.                         |
 
 ### `churches`
 Stores information about each registered church.
@@ -68,7 +68,7 @@ Stores the major arms or sections within a church (e.g., Youth Church, Main Chur
 | --------- | --------- | ---------------------------- |
 | `id`      | `integer` | Primary Key.                 |
 | `name`    | `string`  | Name of the section.         |
-| `churchId`| `integer` | Foreign key to `churches`.   |
+| `church_id`| `integer` | Foreign key to `churches`.   |
 
 ### `departments`
 Stores departments within a section (e.g., Choir, Welfare).
@@ -89,7 +89,7 @@ The core table for all payment requests.
 | `requestedById` | `integer` | Foreign key to `users`.                              |
 | `departmentId`  | `integer` | Foreign key to `departments`.                        |
 | `sectionId`     | `integer` | Foreign key to `sections`.                           |
-| `churchId`      | `integer` | Foreign key to `churches`.                           |
+| `church_id`      | `integer` | Foreign key to `churches`.                           |
 | `amountRequested` | `float`   | The amount of money requested.                       |
 | `category`      | `string`  | A user-defined category for the expense.             |
 | `purpose`       | `string`  | Detailed description of the purpose.                 |
@@ -128,7 +128,7 @@ Authenticates a user and returns their data.
         "role": "Super Admin",
         "departmentId": null,
         "sectionId": null,
-        "churchId": 1
+        "church_id": 1
     }
     ```
 -   **Error Response (401 Unauthorized):**
@@ -193,7 +193,7 @@ Creates a new requisition.
         "purpose": "To replace the failing main projector.",
         "departmentId": 1,
         "sectionId": 1,
-        "churchId": 1,
+        "church_id": 1,
         "requestedById": 102,
         "attachments": []
     }
@@ -265,12 +265,12 @@ Verifies or requests correction for a final receipt.
 
 ### Church & User Management
 
-#### `GET /churches/{churchId}`
+#### `GET /churches/{church_id}`
 Fetches details for a specific church, including its sections and departments.
 -   **Headers:** `X-User-ID: <userId>`
 -   **Success Response (200 OK):** Returns the full church object.
 
-#### `GET /churches/{churchId}/users`
+#### `GET /churches/{church_id}/users`
 Fetches a list of all users belonging to a church.
 -   **Headers:** `X-User-ID: <userId>`
 -   **Success Response (200 OK):** Returns an array of user objects.
@@ -281,7 +281,7 @@ Creates a new user within the authenticated user's church.
 -   **Request Body:** User object (without `id`).
 -   **Success Response (201 Created):** Returns the newly created user object.
 
-#### `POST /churches/{churchId}/sections`
+#### `POST /churches/{church_id}/sections`
 Creates a new section (e.g., Youth Arm) within a church.
 -   **Headers:** `X-User-ID: <userId>` (Must be a Super Admin)
 -   **Request Body:**
@@ -292,7 +292,7 @@ Creates a new section (e.g., Youth Arm) within a church.
     ```
 -   **Success Response (201 Created):** Returns the newly created section object.
 
-#### `POST /churches/{churchId}/extend-subscription`
+#### `POST /churches/{church_id}/extend-subscription`
 Extends the subscription for a church. (App Owner only).
 -   **Headers:** `X-User-ID: <userId>` (Must be an App Owner)
 -   **Request Body:**
@@ -322,7 +322,7 @@ Fetches data for the Finance Hub dashboard.
 -   **Headers:** `X-User-ID: <userId>`
 -   **Success Response (200 OK):** Returns a `FinanceOverview` object.
 
-#### `GET /churches/{churchId}/audit-logs`
+#### `GET /churches/{church_id}/audit-logs`
 Fetches all audit trail logs for a church.
 -   **Headers:** `X-User-ID: <userId>`
 -   **Success Response (200 OK):** Returns an array of `AuditLog` objects.

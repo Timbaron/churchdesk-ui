@@ -168,10 +168,10 @@ export const getFinancialSummary = (
 };
 
 export const getChurch = (
-    churchId: string,
+    church_id: string,
     userId: string,
 ): Promise<Church> => {
-    return request<Church>(`/churches/${churchId}`);
+    return request<Church>(`/churches/${church_id}`);
 };
 
 export const processWorkflowAction = (
@@ -221,21 +221,21 @@ export const verifyFinalReceipt = (
 };
 
 export const createSection = (
-    churchId: number,
+    church_id: number,
     name: string,
     userId: number,
 ): Promise<Section> => {
-    return request<Section>(`/churches/${churchId}/sections`, {
+    return request<Section>(`/churches/${church_id}/sections`, {
         method: 'POST',
         body: JSON.stringify({name}),
     });
 };
 
 export const getAllUsers = (
-    churchId: number,
+    church_id: number,
     userId: number,
 ): Promise<User[]> => {
-    return request<User[]>(`/churches/${churchId}/users`);
+    return request<User[]>(`/churches/${church_id}/users`);
 };
 
 export const createUser = (
@@ -253,21 +253,21 @@ export const getPlatformData = (userId: number): Promise<PlatformData> => {
 };
 
 export const extendSubscription = (
-    churchId: number,
+    church_id: number,
     months: number,
     userId: number,
 ): Promise<Church> => {
-    return request<Church>(`/churches/${churchId}/extend-subscription`, {
+    return request<Church>(`/churches/${church_id}/extend-subscription`, {
         method: 'POST',
         body: JSON.stringify({months}),
     });
 };
 
 export const getAuditLogs = (
-    churchId: number,
+    church_id: number,
     userId: number,
 ): Promise<AuditLog[]> => {
-    return request<AuditLog[]>(`/churches/${churchId}/audit-logs`);
+    return request<AuditLog[]>(`/churches/${church_id}/audit-logs`);
 };
 
 export const getFinanceOverview = (

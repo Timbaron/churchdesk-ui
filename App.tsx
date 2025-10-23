@@ -143,9 +143,9 @@ const App: React.FC = () => {
     useEffect(() => {
         if (currentUser) {
             const fetchUserData = async () => {
-                if (currentUser.churchId > 0) {
+                if (currentUser.church_id > 0) {
                     try {
-                        const churchData = await apiClient.getChurch(currentUser.churchId, currentUser.id);
+                        const churchData = await apiClient.getChurch(currentUser.church_id, currentUser.id);
                         setCurrentChurch(churchData);
                         if (currentUser.sectionId) {
                             const section = churchData.sections.find(s => s.id === currentUser.sectionId);

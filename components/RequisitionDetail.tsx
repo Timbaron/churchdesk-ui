@@ -1,5 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
+import { formatUUID } from '@/utils';
+
 import * as apiClient from '../services/apiClient';
 import {
 	Attachment,
@@ -273,7 +275,7 @@ const RequisitionDetail: React.FC<RequisitionDetailProps> = ({ requisitionId, cu
                 <div className="flex justify-between items-start">
                     <div>
                         <h1 className="text-2xl font-bold text-slate-800">{requisition.title}</h1>
-                        <p className="text-sm text-slate-500">{requisition.id}</p>
+                        <p className="text-sm text-slate-500">{formatUUID(requisition.id)}</p>
                     </div>
                     <Badge status={requisition.status} />
                 </div>

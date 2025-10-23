@@ -63,8 +63,8 @@ const Dashboard: React.FC<DashboardProps> = ({ currentUser, currentSection, navi
                     setSummary(summaryData);
                 }
 
-                if (isHighLevelViewer && currentUser.churchId) {
-                    const churchData = await apiClient.getChurch(currentUser.churchId, currentUser.id);
+                if (isHighLevelViewer && currentUser.church_id) {
+                    const churchData = await apiClient.getChurch(currentUser.church_id, currentUser.id);
                     setSections(churchData.sections);
                 }
                 setLoading(false);
