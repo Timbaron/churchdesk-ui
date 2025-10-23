@@ -1,7 +1,26 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { User, Requisition, Role, RequisitionStatus, ChartData, Section, FinancialSummary } from '../types';
+import React, { useEffect, useMemo, useState } from 'react';
+import {
+	Bar,
+	BarChart,
+	Legend,
+	ResponsiveContainer,
+	Tooltip,
+	XAxis,
+	YAxis,
+} from 'recharts';
+
+import { formatDate, formatUUID } from '@/utils';
+
 import * as apiClient from '../services/apiClient';
+import {
+	ChartData,
+	FinancialSummary,
+	Requisition,
+	RequisitionStatus,
+	Role,
+	Section,
+	User,
+} from '../types';
 import Card from './ui/Card';
 
 interface DashboardProps {
@@ -24,29 +43,36 @@ const Dashboard: React.FC<DashboardProps> = ({ currentUser, currentSection, navi
     const [loading, setLoading] = useState(true);
     const [sectionFilter, setSectionFilter] = useState<string>('all');
     const [summary, setSummary] = useState<FinancialSummary | null>(null);
-    
+
     const isHighLevelViewer = currentUser.role === Role.SUPER_ADMIN || (currentUser.role === Role.AUDITOR && !currentUser.sectionId);
 
     useEffect(() => {
         const fetchData = async () => {
-            setLoading(true);
-            const reqData = await apiClient.getRequisitions(currentUser.id);
-            setRequisitions(reqData);
+            try {
 
-            const sectionIdForSummary = (isHighLevelViewer && sectionFilter !== 'all') 
-                ? parseInt(sectionFilter)
-                : currentSection?.id;
+                setLoading(true);
+                const reqData = await apiClient.getRequisitions(currentUser.id);
+                setRequisitions(reqData);
 
-            if (sectionIdForSummary) {
-                const summaryData = await apiClient.getFinancialSummary(sectionIdForSummary, currentUser.id);
-                setSummary(summaryData);
+                const sectionIdForSummary = (isHighLevelViewer && sectionFilter !== 'all')
+                    ? parseInt(sectionFilter)
+                    : currentSection?.id;
+
+                if (sectionIdForSummary) {
+                    const summaryData = await apiClient.getFinancialSummary(sectionIdForSummary, currentUser.id);
+                    setSummary(summaryData);
+                }
+
+                if (isHighLevelViewer && currentUser.church_id) {
+                    const churchData = await apiClient.getChurch(currentUser.church_id, currentUser.id);
+                    setSections(churchData.sections);
+                }
+                setLoading(false);
             }
-
-            if (isHighLevelViewer && currentUser.churchId) {
-                const churchData = await apiClient.getChurch(currentUser.churchId, currentUser.id);
-                setSections(churchData.sections);
+            catch (e: any) {
+                console.log('Error fetching dashboard data:', e);
+                setLoading(false);
             }
-            setLoading(false);
         };
         fetchData();
     }, [currentUser, currentSection, isHighLevelViewer, sectionFilter]);
@@ -82,7 +108,7 @@ const Dashboard: React.FC<DashboardProps> = ({ currentUser, currentSection, navi
         }, {} as { [key in RequisitionStatus]: number });
         return Object.entries(statusCounts).map(([name, value]) => ({ name, value }));
     }, [userVisibleRequisitions]);
-    
+
     if (loading) {
         return <div className="text-center p-8">Loading dashboard...</div>;
     }
@@ -109,14 +135,14 @@ const Dashboard: React.FC<DashboardProps> = ({ currentUser, currentSection, navi
                 <DashboardCard title="Total Requisitions" value={stats.total} description="All relevant requests" />
                 <DashboardCard title="Pending Review" value={stats.pending} description="Awaiting approvals" />
                 <DashboardCard title="Awaiting Payment" value={stats.awaitingPayment} description="Approved and ready for disbursement" />
-                 <DashboardCard title="Available Balance" value={summary ? `₦${summary.balance.toLocaleString()}`: 'N/A'} description="Current financial balance" />
+                <DashboardCard title="Available Balance" value={summary ? `₦${summary.balance.toLocaleString()}` : 'N/A'} description="Current financial balance" />
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
                 <Card className="lg:col-span-3">
-                     <h3 className="font-semibold text-slate-800 mb-4">Requisitions by Status</h3>
-                     <ResponsiveContainer width="100%" height={300}>
-                         <BarChart data={statusChartData} margin={{ top: 5, right: 20, left: -10, bottom: 5 }}>
+                    <h3 className="font-semibold text-slate-800 mb-4">Requisitions by Status</h3>
+                    <ResponsiveContainer width="100%" height={300}>
+                        <BarChart data={statusChartData} margin={{ top: 5, right: 20, left: -10, bottom: 5 }}>
                             <XAxis dataKey="name" tick={{ fontSize: 10 }} interval={0} angle={-45} textAnchor="end" height={80} />
                             <YAxis />
                             <Tooltip />
@@ -126,16 +152,16 @@ const Dashboard: React.FC<DashboardProps> = ({ currentUser, currentSection, navi
                     </ResponsiveContainer>
                 </Card>
                 <Card className="lg:col-span-2">
-                     <h3 className="font-semibold text-slate-800 mb-4">Recent Activity</h3>
-                     {userVisibleRequisitions.length > 0 ? userVisibleRequisitions.slice(0, 5).map(req => (
+                    <h3 className="font-semibold text-slate-800 mb-4">Recent Activity</h3>
+                    {userVisibleRequisitions.length > 0 ? userVisibleRequisitions.slice(0, 5).map((req: Requisition) => (
                         <div key={req.id} onClick={() => navigate('view_requisition', req.id)} className="flex justify-between items-center p-3 hover:bg-slate-50 rounded-lg cursor-pointer border-b last:border-b-0">
                             <div>
                                 <p className="font-medium text-slate-700 truncate max-w-xs">{req.title}</p>
-                                <p className="text-sm text-slate-500">{req.id}</p>
+                                <p className="text-sm text-slate-500">{formatUUID(req.id)}</p>
                             </div>
                             <div className="text-right flex-shrink-0">
-                                <p className="font-semibold text-slate-800">₦{req.amountRequested.toLocaleString()}</p>
-                                <span className="text-xs text-slate-500">{new Date(req.createdAt).toLocaleDateString()}</span>
+                                <p className="font-semibold text-slate-800">₦{req.amount_requested.toLocaleString()}</p>
+                                <span className="text-xs text-slate-500">{formatDate(req.created_at).date}</span>
                             </div>
                         </div>
                     )) : <p className="text-center text-slate-500 py-8">No recent requisition activity.</p>}

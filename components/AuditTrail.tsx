@@ -1,12 +1,13 @@
 // components/AuditTrail.tsx
-import React, { useState, useEffect, useCallback } from 'react';
-import { User, AuditLog } from '../types';
+import React, { useCallback, useEffect, useState } from 'react';
+
 import * as apiClient from '../services/apiClient';
+import { AuditLog, User } from '../types';
 import Card from './ui/Card';
 
 interface AuditTrailProps {
-  currentUser: User;
-  navigate: (view: 'view_requisition', id: string) => void;
+    currentUser: User;
+    navigate: (view: 'view_requisition', id: string) => void;
 }
 
 const AuditTrail: React.FC<AuditTrailProps> = ({ currentUser, navigate }) => {
@@ -15,19 +16,19 @@ const AuditTrail: React.FC<AuditTrailProps> = ({ currentUser, navigate }) => {
     const [users, setUsers] = useState<User[]>([]);
 
     const fetchData = useCallback(async () => {
-        if (!currentUser.churchId) {
+        if (!currentUser.church_id) {
             setLoading(false);
             return;
         }
         setLoading(true);
         const [logData, userData] = await Promise.all([
-            apiClient.getAuditLogs(currentUser.churchId, currentUser.id),
-            apiClient.getAllUsers(currentUser.churchId, currentUser.id)
+            apiClient.getAuditLogs(currentUser.church_id, currentUser.id),
+            apiClient.getAllUsers(currentUser.church_id, currentUser.id)
         ]);
         setLogs(logData);
         setUsers(userData);
         setLoading(false);
-    }, [currentUser.churchId, currentUser.id]);
+    }, [currentUser.church_id, currentUser.id]);
 
     useEffect(() => {
         fetchData();
@@ -58,12 +59,12 @@ const AuditTrail: React.FC<AuditTrailProps> = ({ currentUser, navigate }) => {
                             {logs.map(log => (
                                 <tr key={log.id} className="bg-white border-b hover:bg-slate-50">
                                     <td className="px-6 py-4 whitespace-nowrap">{new Date(log.timestamp).toLocaleString()}</td>
-                                    <td className="px-6 py-4 font-medium text-slate-900">{getUserName(log.userId)}</td>
+                                    <td className="px-6 py-4 font-medium text-slate-900">{getUserName(log.user_id)}</td>
                                     <td className="px-6 py-4">{log.action}</td>
                                     <td className="px-6 py-4 italic text-slate-600 max-w-xs truncate">{log.details || 'N/A'}</td>
                                     <td className="px-6 py-4">
-                                        <button onClick={() => navigate('view_requisition', log.requisitionId)} className="font-medium text-blue-600 hover:underline">
-                                            {log.requisitionId}
+                                        <button onClick={() => navigate('view_requisition', log.requisition_id)} className="font-medium text-blue-600 hover:underline">
+                                            {log.requisition_id}
                                         </button>
                                     </td>
                                 </tr>
@@ -71,7 +72,7 @@ const AuditTrail: React.FC<AuditTrailProps> = ({ currentUser, navigate }) => {
                         </tbody>
                     </table>
                 </div>
-                 {logs.length === 0 && (
+                {logs.length === 0 && (
                     <p className="text-center text-slate-500 py-8">No audit logs found.</p>
                 )}
             </Card>

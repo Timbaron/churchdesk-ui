@@ -1,9 +1,12 @@
 // components/RequisitionList.tsx
-import React, { useState, useEffect, useMemo } from 'react';
-import { Requisition, User, Role, RequisitionStatus } from '../types';
+import React, { useEffect, useMemo, useState } from 'react';
+
+import { formatUUID } from '@/utils';
+
 import * as apiClient from '../services/apiClient';
-import Card from './ui/Card';
+import { Requisition, RequisitionStatus, Role, User } from '../types';
 import Badge from './ui/Badge';
+import Card from './ui/Card';
 
 interface RequisitionListProps {
   currentUser: User;
@@ -21,10 +24,12 @@ const RequisitionList: React.FC<RequisitionListProps> = ({ currentUser, navigate
     const fetchData = async () => {
       setLoading(true);
       const [reqData, userData] = await Promise.all([
-          apiClient.getRequisitions(currentUser.id),
-          apiClient.getAllUsers(currentUser.churchId, currentUser.id)
+        apiClient.getRequisitions(currentUser.id),
+        apiClient.getAllUsers(currentUser.church_id, currentUser.id)
       ]);
-      setRequisitions(reqData.sort((a,b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()));
+      console.log('reqData', reqData)
+      console.log('userData', userData)
+      setRequisitions(reqData.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()));
       setUsers(userData);
       setLoading(false);
     };
@@ -32,25 +37,25 @@ const RequisitionList: React.FC<RequisitionListProps> = ({ currentUser, navigate
   }, [currentUser]);
 
   const userVisibleRequisitions = useMemo(() => {
-      let filtered = requisitions;
-      if (currentUser.role === Role.DEPARTMENT_HEAD) {
-          filtered = filtered.filter(r => r.departmentId === currentUser.departmentId);
-      } else if (currentUser.role === Role.MEMBER) {
-          filtered = filtered.filter(r => r.requestedById === currentUser.id);
-      }
-      return filtered;
+    let filtered: Requisition[] = requisitions;
+    if (currentUser.role === Role.DEPARTMENT_HEAD) {
+      filtered = filtered.filter(r => r.department_id === currentUser.departmentId);
+    } else if (currentUser.role === Role.MEMBER) {
+      filtered = filtered.filter(r => r.requested_by_id === currentUser.id);
+    }
+    return filtered;
   }, [requisitions, currentUser]);
-  
+
   const filteredRequisitions = useMemo(() => {
     return userVisibleRequisitions.filter(req => {
       const matchesSearch = req.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                            req.id.toLowerCase().includes(searchTerm.toLowerCase());
+        req.id.toLowerCase().includes(searchTerm.toLowerCase());
       const matchesStatus = statusFilter === 'all' || req.status === statusFilter;
       return matchesSearch && matchesStatus;
     });
   }, [userVisibleRequisitions, searchTerm, statusFilter]);
-  
-  const getUserName = (id: number) => users.find(u => u.id === id)?.name || 'Unknown';
+
+  const getUserName = (id: string) => users.find(u => u.id === id)?.name || 'Unknown';
 
   if (loading) {
     return <div className="text-center p-8">Loading requisitions...</div>;
@@ -100,13 +105,13 @@ const RequisitionList: React.FC<RequisitionListProps> = ({ currentUser, navigate
               </tr>
             </thead>
             <tbody>
-              {filteredRequisitions.map(req => (
+              {filteredRequisitions.map((req: Requisition) => (
                 <tr key={req.id} className="bg-white border-b hover:bg-slate-50">
-                  <td className="px-6 py-4 font-mono text-xs">{req.id}</td>
+                  <td className="px-6 py-4 font-mono text-xs">{formatUUID(req.id)}</td>
                   <td className="px-6 py-4 font-medium text-slate-900">{req.title}</td>
-                  <td className="px-6 py-4">₦{req.amountRequested.toLocaleString()}</td>
-                  <td className="px-6 py-4">{getUserName(req.requestedById)}</td>
-                  <td className="px-6 py-4">{new Date(req.createdAt).toLocaleDateString()}</td>
+                  <td className="px-6 py-4">₦{req.amount_requested.toLocaleString()}</td>
+                  <td className="px-6 py-4">{getUserName(req.requested_by_id)}</td>
+                  <td className="px-6 py-4">{new Date(req.created_at).toLocaleDateString()}</td>
                   <td className="px-6 py-4"><Badge status={req.status} /></td>
                   <td className="px-6 py-4 text-right">
                     <button onClick={() => navigate('view_requisition', req.id)} className="font-medium text-blue-600 hover:underline">
@@ -119,7 +124,7 @@ const RequisitionList: React.FC<RequisitionListProps> = ({ currentUser, navigate
           </table>
         </div>
         {filteredRequisitions.length === 0 && (
-            <p className="text-center text-slate-500 py-8">No requisitions found.</p>
+          <p className="text-center text-slate-500 py-8">No requisitions found.</p>
         )}
       </Card>
     </div>

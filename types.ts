@@ -1,5 +1,3 @@
-// types.ts
-
 export enum Role {
     MEMBER = 'Member',
     DEPARTMENT_HEAD = 'Department Head',
@@ -29,27 +27,29 @@ export enum PaymentMethod {
 }
 
 export interface User {
-  id: number;
-  name: string;
-  email: string;
-  password?: string; // Added for authentication
-  role: Role;
-  departmentId: number | null;
-  sectionId: number | null;
-  churchId: number;
+    id: string;
+    name: string;
+    email: string;
+    password?: string;
+    role: Role;
+    department_id: string | null;
+    section_id: string | null;
+    church_id: string;
 }
 
 export interface Department {
-  id: number;
-  name: string;
-  sectionId: number;
+    id: string;
+    name: string;
+    section_id: string;
+    created_at?: string;
+    updated_at?: string;
 }
 
 export interface Section {
-  id: number;
-  name: string;
-  churchId: number;
-  departments: Department[];
+    id: string;
+    name: string;
+    church_id: string;
+    departments: Department[];
 }
 
 export enum SubscriptionStatus {
@@ -59,27 +59,28 @@ export enum SubscriptionStatus {
 }
 
 export interface Church {
-  id: number;
-  name: string;
-  sections: Section[];
-  subscriptionStatus: SubscriptionStatus;
-  subscriptionEndsAt: string; // ISO date string
+    id: string;
+    name: string;
+    sections: Section[];
+    subscription_status: SubscriptionStatus;
+    subscription_ends_at: string;
 }
 
 export interface Approval {
-  id: number;
-  approverId: number;
-  status: 'APPROVED' | 'REJECTED' | 'REQUESTED_CHANGES';
-  comments: string | null;
-  timestamp: string; // ISO date string
+    id: string;
+    requisition_id: string;
+    approver_id: string;
+    status: 'APPROVED' | 'REJECTED' | 'REQUESTED_CHANGES';
+    comments: string | null;
+    timestamp: string;
 }
 
 export interface ActivityLog {
-  id: number;
-  userId: number;
-  action: string;
-  details: string | null;
-  timestamp: string; // ISO date string
+    id: string;
+    user_id: string;
+    action: string;
+    details: string | null;
+    timestamp: string;
 }
 
 export interface Attachment {
@@ -88,39 +89,42 @@ export interface Attachment {
 }
 
 export interface Payment {
-    amountPaid: number;
-    paymentMethod: PaymentMethod;
-    paymentDate: string; // YYYY-MM-DD
-    referenceNumber: string | null;
-    proofFile: Attachment | null;
-    recordedById: number;
-    timestamp: string; // ISO date string
+    amount_paid: number;
+    payment_method: PaymentMethod;
+    payment_date: string;
+    reference_number: string | null;
+    proof_file: Attachment | null;
+    recorded_by_id: string;
+    timestamp: string;
 }
 
 export interface FinalReceipt {
     name: string;
     url: string;
-    uploadedAt: string; // ISO date string
+    uploaded_at: string;
 }
 
 export interface Requisition {
-  id: string;
-  title: string;
-  requestedById: number;
-  departmentId: number;
-  sectionId: number;
-  churchId: number;
-  amountRequested: number;
-  category: string;
-  purpose: string;
-  dateNeeded: string; // YYYY-MM-DD
-  createdAt: string; // ISO date string
-  status: RequisitionStatus;
-  approvals: Approval[];
-  activityLog: ActivityLog[];
-  attachments: Attachment[];
-  payment: Payment | null;
-  finalReceipt: FinalReceipt | null;
+    id: string;
+    title: string;
+    requested_by_id: string;
+    department_id: string;
+    section_id: string;
+    church_id: string;
+    amount_requested: number;
+    category: string;
+    purpose: string;
+    date_needed: string;
+    created_at: string;
+    updated_at: string;
+    status: RequisitionStatus | string;
+    attachments: Attachment[] | null;
+    final_receipt: FinalReceipt | null;
+    requested_by: User;
+    department: Department;
+    approvals: Approval[];
+    activity_log?: ActivityLog[];
+    payment?: Payment | null;
 }
 
 export interface ChartData {
@@ -130,36 +134,35 @@ export interface ChartData {
 
 export interface FinancialSummary {
     balance: number;
-    totalInflow: number;
-    totalOutflow: number;
+    total_inflow: number;
+    total_outflow: number;
 }
 
 export interface PlatformActivity {
-    id: number;
+    id: string;
     description: string;
-    timestamp: string; // ISO date string
+    timestamp: string;
     category: 'NEW_CHURCH' | 'SUBSCRIPTION' | 'SYSTEM';
 }
 
-
 export interface PlatformData {
     churches: Church[];
-    totalUsers: number;
-    totalRequisitions: number;
-    totalAmountRequested: number;
-    requisitionStatusCounts: { [key in RequisitionStatus]?: number };
-    subscriptionStatusCounts: { [key in SubscriptionStatus]?: number };
-    recentActivities: PlatformActivity[];
+    total_users: number;
+    total_requisitions: number;
+    total_amount_requested: number;
+    requisition_status_counts: {[key in RequisitionStatus]?: number};
+    subscription_status_counts: {[key in SubscriptionStatus]?: number};
+    recent_activities: PlatformActivity[];
 }
 
 export interface AuditLog extends ActivityLog {
-    requisitionId: string;
-    requisitionTitle: string;
+    requisition_id: string;
+    requisition_title: string;
 }
 
 export interface FinanceOverview {
-    awaitingDisbursement: Requisition[];
-    pendingVerification: Requisition[];
-    recentlyCompleted: Requisition[];
-    totalDisbursed: number;
+    awaiting_disbursement: Requisition[];
+    pending_verification: Requisition[];
+    recently_completed: Requisition[];
+    total_disbursed: number;
 }
