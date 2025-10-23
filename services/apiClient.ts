@@ -1,18 +1,18 @@
 // services/apiClient.ts
 import {
-	AuditLog,
-	Church,
-	FinanceOverview,
-	FinancialSummary,
-	Payment,
-	PlatformData,
-	Requisition,
-	Role,
-	Section,
-	User,
+    AuditLog,
+    Church,
+    FinanceOverview,
+    FinancialSummary,
+    Payment,
+    PlatformData,
+    Requisition,
+    Role,
+    Section,
+    User,
 } from '../types';
 
-const API_BASE_URL = 'https://0f2eb399cbe1.ngrok-free.app/api'; // Using a relative URL for the proxy
+const API_BASE_URL = 'https://7fe9ef0a6473.ngrok-free.app/api'; // Using a relative URL for the proxy
 
 // Define the structure of the login response
 export type LoginResponse = {
