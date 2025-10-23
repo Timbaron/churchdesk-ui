@@ -322,13 +322,16 @@ const RequisitionDetail: React.FC<RequisitionDetailProps> = ({ requisitionId, cu
                 </Card>
 
                 <div className="space-y-6 lg:col-span-1">
-                    {requisition.attachments?.length > 0 && (
+                    {Array.isArray(requisition.attachments) && requisition.attachments.length > 0 && (
                         <Card>
                             <h3 className="font-semibold text-slate-800 mb-2">Attachments</h3>
                             <ul className="list-disc list-inside text-blue-600 text-sm">
-                                {/* Attachments array is a string | null on Requisition type in types.ts. Assuming the actual attachments is an array of Attachment objects, which is how it was previously rendered. */}
-                                {(requisition.attachments as Attachment[]).map((file, i) => (
-                                    <li key={i}><a href="#" className="underline hover:no-underline">{file.name}</a></li>
+                                {requisition.attachments.map((file: Attachment, i: number) => (
+                                    <li key={i}>
+                                        <a href="#" className="underline hover:no-underline">
+                                            {file.name}
+                                        </a>
+                                    </li>
                                 ))}
                             </ul>
                         </Card>
