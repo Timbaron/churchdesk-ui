@@ -12,11 +12,41 @@ import {
 	User,
 } from '../types';
 
-const API_BASE_URL = 'https://8ff1a2399dd0.ngrok-free.app/api'; // Using a relative URL for the proxy
+const API_BASE_URL = 'https://0f2eb399cbe1.ngrok-free.app/api'; // Using a relative URL for the proxy
 
-let authUserId: number | null = null;
+// Define the structure of the login response
+export type LoginResponse = {
+    user: User;
+    token: string;
+};
 
-export const setAuthUserId = (id: number) => {
+// Keys for storing data
+const AUTH_TOKEN_KEY = 'authToken';
+const AUTH_USER_KEY = 'authUser';
+
+// Storage Utility Functions (using localStorage as a stand-in for cookies/better storage)
+export const saveAuthData = (token: string, user: User) => {
+    localStorage.setItem(AUTH_TOKEN_KEY, token);
+    localStorage.setItem(AUTH_USER_KEY, JSON.stringify(user));
+};
+
+export const getAuthToken = (): string | null => {
+    return localStorage.getItem(AUTH_TOKEN_KEY);
+};
+
+export const getAuthUser = (): User | null => {
+    const userJson = localStorage.getItem(AUTH_USER_KEY);
+    return userJson ? JSON.parse(userJson) : null;
+};
+
+export const clearAuthData = () => {
+    localStorage.removeItem(AUTH_TOKEN_KEY);
+    localStorage.removeItem(AUTH_USER_KEY);
+};
+
+let authUserId: string | null = null;
+
+export const setAuthUserId = (id: string) => {
     authUserId = id;
 };
 
@@ -31,8 +61,12 @@ async function request<T>(
     const headers = new Headers(options.headers || {});
     headers.set('Content-Type', 'application/json');
     headers.set('Accept', 'application/json');
-    if (authUserId) {
-        headers.set('X-User-ID', authUserId.toString());
+
+    // 1. Get the token from storage
+    const token = getAuthToken();
+    if (token) {
+        // 2. Set the Authorization header with the Bearer scheme
+        headers.set('Authorization', `Bearer ${token}`);
     }
 
     const response = await fetch(`${API_BASE_URL}${endpoint}`, {
@@ -41,6 +75,7 @@ async function request<T>(
     });
 
     if (!response.ok) {
+        // ... (error handling remains the same)
         const errorData = await response.json();
         throw new Error(errorData.message || 'An API error occurred');
     }
@@ -50,12 +85,21 @@ async function request<T>(
 
 // --- API Functions ---
 
-export const login = (email: string, password: string): Promise<User> => {
+export const login = async (email: string, password: string): Promise<User> => {
+    // Note: The public function returns User, but handles LoginResponse internally
     console.log('API Client Login called');
-    return request<User>('/login', {
+
+    const loginResponse = await request<LoginResponse>('/login', {
         method: 'POST',
         body: JSON.stringify({email, password}),
     });
+
+    // 1. Save the token and user details upon successful login
+    console.log(loginResponse.token, loginResponse.user);
+    saveAuthData(loginResponse.token, loginResponse.user);
+
+    // 2. Return the user object, as the original function signature suggests
+    return loginResponse.user;
 };
 
 export const registerChurch = (
@@ -124,8 +168,8 @@ export const getFinancialSummary = (
 };
 
 export const getChurch = (
-    churchId: number,
-    userId: number,
+    churchId: string,
+    userId: string,
 ): Promise<Church> => {
     return request<Church>(`/churches/${churchId}`);
 };
@@ -145,7 +189,7 @@ export const processWorkflowAction = (
 export const disbursePayment = (
     reqId: string,
     paymentDetails: Omit<Payment, 'timestamp'>,
-    userId: number,
+    userId: string,
 ): Promise<Requisition> => {
     return request<Requisition>(`/requisitions/${reqId}/disburse`, {
         method: 'POST',

@@ -1,17 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import Sidebar from './components/Sidebar';
-import Header from './components/Header';
+import React, { useEffect, useState } from 'react';
+
+import AdminPanel from './components/AdminPanel';
+import AppOwnerDashboard from './components/AppOwnerDashboard';
+import AuditTrail from './components/AuditTrail';
 import Dashboard from './components/Dashboard';
-import RequisitionList from './components/RequisitionList';
+import FinanceDashboard from './components/FinanceDashboard';
+import Header from './components/Header';
+import LandingPage from './components/LandingPage';
 import RequisitionDetail from './components/RequisitionDetail';
 import RequisitionForm from './components/RequisitionForm';
-import AdminPanel from './components/AdminPanel';
-import FinanceDashboard from './components/FinanceDashboard';
-import AuditTrail from './components/AuditTrail';
-import AppOwnerDashboard from './components/AppOwnerDashboard';
-import LandingPage from './components/LandingPage';
-import { User, Role, Section, Church } from './types';
+import RequisitionList from './components/RequisitionList';
+import Sidebar from './components/Sidebar';
 import * as apiClient from './services/apiClient';
+import { Church, Role, Section, User } from './types';
 
 type View = 'dashboard' | 'requisitions' | 'view_requisition' | 'new_requisition' | 'admin' | 'finance' | 'audit';
 
@@ -27,6 +28,7 @@ const LoginPage: React.FC<{ onLogin: (email: string, pass: string) => Promise<vo
         setIsLoading(true);
         try {
             await onLogin(email, password);
+
         } catch (err: any) {
             setError(err.message || 'Login failed.');
         } finally {
@@ -46,7 +48,7 @@ const LoginPage: React.FC<{ onLogin: (email: string, pass: string) => Promise<vo
                     <div>
                         <label className="block text-sm font-medium text-slate-700">Password</label>
                         <input type="password" value={password} onChange={e => setPassword(e.target.value)} required className="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm" />
-                         <p className="text-xs text-slate-400 mt-1">Hint: The password for all test users is 'password123'</p>
+                        <p className="text-xs text-slate-400 mt-1">Hint: The password for all test users is 'password123'</p>
                     </div>
                     {error && <p className="text-sm text-red-600">{error}</p>}
                     <button type="submit" disabled={isLoading} className="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 disabled:bg-blue-300">
@@ -71,7 +73,7 @@ const RegisterPage: React.FC<{ onRegister: (church: string, name: string, email:
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError('');
@@ -79,7 +81,7 @@ const RegisterPage: React.FC<{ onRegister: (church: string, name: string, email:
         try {
             await onRegister(churchName, adminName, email, password);
         } catch (err: any) {
-             setError(err.message || 'Registration failed.');
+            setError(err.message || 'Registration failed.');
         } finally {
             setIsLoading(false);
         }
@@ -90,11 +92,11 @@ const RegisterPage: React.FC<{ onRegister: (church: string, name: string, email:
             <div className="p-8 bg-white rounded-lg shadow-md w-full max-w-md">
                 <h1 className="text-2xl font-bold text-center text-slate-800 mb-6">Register Your Church</h1>
                 <form onSubmit={handleSubmit} className="space-y-4">
-                     <div>
+                    <div>
                         <label className="block text-sm font-medium text-slate-700">Church Name</label>
                         <input type="text" value={churchName} onChange={e => setChurchName(e.target.value)} required className="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm" />
                     </div>
-                     <div>
+                    <div>
                         <label className="block text-sm font-medium text-slate-700">Your Full Name (Super Admin)</label>
                         <input type="text" value={adminName} onChange={e => setAdminName(e.target.value)} required className="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm" />
                     </div>
@@ -106,12 +108,12 @@ const RegisterPage: React.FC<{ onRegister: (church: string, name: string, email:
                         <label className="block text-sm font-medium text-slate-700">Password</label>
                         <input type="password" value={password} onChange={e => setPassword(e.target.value)} required className="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm" />
                     </div>
-                     {error && <p className="text-sm text-red-600">{error}</p>}
+                    {error && <p className="text-sm text-red-600">{error}</p>}
                     <button type="submit" disabled={isLoading} className="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 disabled:bg-blue-300">
                         {isLoading ? 'Registering...' : 'Create Account'}
                     </button>
                 </form>
-                 <p className="text-center text-sm text-slate-600 mt-6">
+                <p className="text-center text-sm text-slate-600 mt-6">
                     Already have an account?{' '}
                     <button onClick={onNavigateToLogin} className="font-medium text-blue-600 hover:underline">
                         Login
@@ -137,15 +139,15 @@ const App: React.FC = () => {
         setCurrentUser(user);
         setAppState('app');
     };
-    
+
     useEffect(() => {
         if (currentUser) {
             const fetchUserData = async () => {
-                if(currentUser.churchId > 0) {
+                if (currentUser.churchId > 0) {
                     try {
                         const churchData = await apiClient.getChurch(currentUser.churchId, currentUser.id);
                         setCurrentChurch(churchData);
-                         if (currentUser.sectionId) {
+                        if (currentUser.sectionId) {
                             const section = churchData.sections.find(s => s.id === currentUser.sectionId);
                             setCurrentSection(section || null);
                         } else {
@@ -160,7 +162,7 @@ const App: React.FC = () => {
             fetchUserData();
         }
     }, [currentUser]);
-    
+
     const handleLogin = async (email: string, pass: string) => {
         const user = await apiClient.login(email, pass);
         performLogin(user);
@@ -180,7 +182,7 @@ const App: React.FC = () => {
         setSidebarOpen(false);
         setAppState('landing');
     };
-    
+
     const navigate = (newView: View, id?: string) => {
         setView(newView);
         setActiveRequisitionId(id);
@@ -199,7 +201,7 @@ const App: React.FC = () => {
             case 'view_requisition':
                 return activeRequisitionId ? <RequisitionDetail requisitionId={activeRequisitionId} currentUser={currentUser} navigate={navigate} /> : <p>No requisition selected.</p>;
             case 'new_requisition':
-                 return <RequisitionForm currentUser={currentUser} navigate={navigate} requisitionId={activeRequisitionId} />;
+                return <RequisitionForm currentUser={currentUser} navigate={navigate} requisitionId={activeRequisitionId} />;
             case 'admin':
                 return <AdminPanel currentUser={currentUser} church={currentChurch} />;
             case 'finance':
@@ -224,34 +226,34 @@ const App: React.FC = () => {
     if (currentUser && currentUser.role === Role.APP_OWNER) {
         return <AppOwnerDashboard owner={currentUser} onLogout={handleLogout} />;
     }
-    
+
     return (
         <div className="relative min-h-screen md:flex">
             {/* Overlay for mobile */}
             {isSidebarOpen && (
-                <div 
+                <div
                     className="fixed inset-0 bg-black opacity-50 z-20 md:hidden"
                     onClick={() => setSidebarOpen(false)}
                 ></div>
             )}
 
             {currentUser && (
-                <Sidebar 
-                    currentUser={currentUser} 
-                    currentView={view} 
-                    navigate={navigate} 
+                <Sidebar
+                    currentUser={currentUser}
+                    currentView={view}
+                    navigate={navigate}
                     isOpen={isSidebarOpen}
                     setIsOpen={setSidebarOpen}
                 />
             )}
-            
+
             <div className="flex-1 flex flex-col overflow-hidden">
                 {currentUser && currentChurch && (
-                    <Header 
-                        user={currentUser} 
-                        churchName={currentChurch.name} 
-                        sectionName={currentSection?.name || 'Church-wide'} 
-                        onLogout={handleLogout} 
+                    <Header
+                        user={currentUser}
+                        churchName={currentChurch.name}
+                        sectionName={currentSection?.name || 'Church-wide'}
+                        onLogout={handleLogout}
                         onMenuClick={() => setSidebarOpen(true)}
                     />
                 )}
