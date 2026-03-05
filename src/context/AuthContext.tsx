@@ -26,14 +26,18 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
     // Persist login state
     useEffect(() => {
-        const savedUser = apiClient.getAuthUser();
-        const token = apiClient.getAuthToken();
+        const initializeAuth = async () => {
+            const savedUser = await apiClient.getAuthUser();
+            const token = await apiClient.getAuthToken();
 
-        if (savedUser && token) {
-            setCurrentUser(savedUser);
-            apiClient.setAuthUserId(savedUser.id);
-        }
-        setIsLoading(false);
+            if (savedUser && token) {
+                setCurrentUser(savedUser);
+                apiClient.setAuthUserId(savedUser.id);
+            }
+            setIsLoading(false);
+        };
+
+        initializeAuth();
     }, []);
 
     // Fetch related church data when user is available

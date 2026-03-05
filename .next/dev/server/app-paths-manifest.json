@@ -1,6 +1,10 @@
 {
+  "/admin/page": "app/admin/page.js",
+  "/audit/page": "app/audit/page.js",
+  "/finance/page": "app/finance/page.js",
   "/login/page": "app/login/page.js",
   "/page": "app/page.js",
+  "/requisitions/[id]/page": "app/requisitions/[id]/page.js",
   "/requisitions/new/page": "app/requisitions/new/page.js",
   "/requisitions/page": "app/requisitions/page.js"
 }

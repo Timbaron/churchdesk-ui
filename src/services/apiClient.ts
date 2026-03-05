@@ -13,8 +13,12 @@ import {
     SubscriptionStatus,
     User,
 } from '../types';
+import Cookies from 'js-cookie';
+import NextCrypto from 'next-crypto';
 
-const API_BASE_URL = 'https://7fe9ef0a6473.ngrok-free.app/api';
+const crypto = new NextCrypto(process.env.NEXT_PUBLIC_CRYPTO_SECRET || 'fallback_secret_key_1234567890');
+
+const API_BASE_URL = 'https://625a-102-88-114-30.ngrok-free.app/api';
 
 export type ApiResponse<T> = {
     status: boolean;
@@ -32,24 +36,38 @@ export type LoginResponse = {
 const AUTH_TOKEN_KEY = 'authToken';
 const AUTH_USER_KEY = 'authUser';
 
-// Storage Utility Functions (using localStorage as a stand-in for cookies/better storage)
-export const saveAuthData = (token: string, user: User) => {
-    localStorage.setItem(AUTH_TOKEN_KEY, token);
-    localStorage.setItem(AUTH_USER_KEY, JSON.stringify(user));
+// Storage Utility Functions
+export const saveAuthData = async (token: string, user: User) => {
+    const encryptedToken = await crypto.encrypt(token);
+    const encryptedUser = await crypto.encrypt(JSON.stringify(user));
+    Cookies.set(AUTH_TOKEN_KEY, encryptedToken, { expires: 7 }); // 7 days
+    Cookies.set(AUTH_USER_KEY, encryptedUser, { expires: 7 });
 };
 
-export const getAuthToken = (): string | null => {
-    return localStorage.getItem(AUTH_TOKEN_KEY);
+export const getAuthToken = async (): Promise<string | null> => {
+    try {
+        const encrypted = Cookies.get(AUTH_TOKEN_KEY);
+        if (!encrypted) return null;
+        return await crypto.decrypt(encrypted);
+    } catch {
+        return null;
+    }
 };
 
-export const getAuthUser = (): User | null => {
-    const userJson = localStorage.getItem(AUTH_USER_KEY);
-    return userJson ? JSON.parse(userJson) : null;
+export const getAuthUser = async (): Promise<User | null> => {
+    try {
+        const encrypted = Cookies.get(AUTH_USER_KEY);
+        if (!encrypted) return null;
+        const decryptedUserJson = await crypto.decrypt(encrypted);
+        return JSON.parse(decryptedUserJson);
+    } catch {
+        return null;
+    }
 };
 
 export const clearAuthData = () => {
-    localStorage.removeItem(AUTH_TOKEN_KEY);
-    localStorage.removeItem(AUTH_USER_KEY);
+    Cookies.remove(AUTH_TOKEN_KEY);
+    Cookies.remove(AUTH_USER_KEY);
 };
 
 let authUserId: string | null = null;
@@ -70,7 +88,7 @@ async function request<T>(
     headers.set('Content-Type', 'application/json');
     headers.set('Accept', 'application/json');
 
-    const token = getAuthToken();
+    const token = await getAuthToken();
     if (token) {
         headers.set('Authorization', `Bearer ${token}`);
     }
@@ -101,7 +119,7 @@ export const login = async (email: string, password: string): Promise<User> => {
 
     // 1. Save the token and user details upon successful login
     console.log(loginResponse.token, loginResponse.user);
-    saveAuthData(loginResponse.token, loginResponse.user);
+    await saveAuthData(loginResponse.token, loginResponse.user);
 
     // 2. Return the user object, as the original function signature suggests
     return loginResponse.user;
