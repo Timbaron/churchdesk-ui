@@ -15,6 +15,7 @@
     "next-crypto": "^1.0.8",
     "react": "latest",
     "react-dom": "latest",
+    "react-hot-toast": "^2.6.0",
     "recharts": "^3.3.0"
   },
   "devDependencies": {

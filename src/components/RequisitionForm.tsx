@@ -2,6 +2,7 @@ import React from 'react';
 import { useRequisitionForm } from '@/hooks/useRequisitionForm';
 import { Role } from '../types';
 import Card from './ui/Card';
+import toast, { Toaster } from 'react-hot-toast';
 
 interface RequisitionFormProps {
   requisitionId?: string; // For editing
@@ -34,7 +35,10 @@ const RequisitionForm: React.FC<RequisitionFormProps> = ({ requisitionId, naviga
     e.preventDefault();
     const savedRequisition = await submit();
     if (savedRequisition) {
+      toast.success('Requisition saved successfully');
       navigate('view_requisition', savedRequisition.id);
+    } else {
+      toast.error('Failed to save requisition');
     }
   };
 

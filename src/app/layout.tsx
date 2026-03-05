@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 const inter = Inter({ subsets: ["latin"] });
 import { AuthProvider } from "@/context/AuthContext";
 import { Metadata } from 'next';
+import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
     title: 'ChurchDesk - Church Management Platform',
@@ -21,6 +22,7 @@ export default function RootLayout({
                 <AuthProvider>
                     {children}
                 </AuthProvider>
+                <Toaster position="top-right" />
             </body>
         </html>
     );

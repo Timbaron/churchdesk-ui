@@ -814,21 +814,19 @@ const useRequisitionForm = (requisitionId)=>{
         }
         setIsSubmitting(true);
         setError(null);
-        const requisitionData = {
-            title,
-            amount_requested: parseFloat(amount),
-            category,
-            date_needed: dateNeeded,
-            purpose,
-            department_id: departmentId,
-            section_id: currentUser.section_id,
-            church_id: currentUser.church_id,
-            requested_by_id: currentUser.id,
-            attachments: attachments.map((f)=>({
-                    name: f.name,
-                    url: '#'
-                }))
-        };
+        const requisitionData = new FormData();
+        requisitionData.append('title', title);
+        requisitionData.append('amount_requested', parseFloat(amount).toString());
+        requisitionData.append('category', category);
+        requisitionData.append('date_needed', dateNeeded);
+        requisitionData.append('purpose', purpose);
+        requisitionData.append('department_id', departmentId);
+        requisitionData.append('section_id', currentUser.section_id);
+        requisitionData.append('church_id', currentUser.church_id);
+        requisitionData.append('requested_by_id', currentUser.id);
+        attachments.forEach((file, index)=>{
+            requisitionData.append(`attachments[${index}]`, file);
+        });
         try {
             let savedRequisition;
             if (isEditing) {
@@ -903,6 +901,8 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$churc
 var __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$src$2f$hooks$2f$useRequisitionForm$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Desktop/Learning/church/churchdesk-ui/src/hooks/useRequisitionForm.ts [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$src$2f$types$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Desktop/Learning/church/churchdesk-ui/src/types.ts [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$src$2f$components$2f$ui$2f$Card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Desktop/Learning/church/churchdesk-ui/src/components/ui/Card.tsx [app-ssr] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$node_modules$2f$react$2d$hot$2d$toast$2f$dist$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Desktop/Learning/church/churchdesk-ui/node_modules/react-hot-toast/dist/index.mjs [app-ssr] (ecmascript)");
+;
 ;
 ;
 ;
@@ -914,7 +914,10 @@ const RequisitionForm = ({ requisitionId, navigate })=>{
         e.preventDefault();
         const savedRequisition = await submit();
         if (savedRequisition) {
+            __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$node_modules$2f$react$2d$hot$2d$toast$2f$dist$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"].success('Requisition saved successfully');
             navigate('view_requisition', savedRequisition.id);
+        } else {
+            __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$node_modules$2f$react$2d$hot$2d$toast$2f$dist$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"].error('Failed to save requisition');
         }
     };
     if (isLoading) {
@@ -923,7 +926,7 @@ const RequisitionForm = ({ requisitionId, navigate })=>{
             children: "Loading requisition data..."
         }, void 0, false, {
             fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/RequisitionForm.tsx",
-            lineNumber: 42,
+            lineNumber: 46,
             columnNumber: 12
         }, ("TURBOPACK compile-time value", void 0));
     }
@@ -935,7 +938,7 @@ const RequisitionForm = ({ requisitionId, navigate })=>{
                 children: isEditing ? 'Edit Requisition' : 'Create New Requisition'
             }, void 0, false, {
                 fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/RequisitionForm.tsx",
-                lineNumber: 47,
+                lineNumber: 51,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$src$2f$components$2f$ui$2f$Card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
@@ -954,7 +957,7 @@ const RequisitionForm = ({ requisitionId, navigate })=>{
                                             children: "Title"
                                         }, void 0, false, {
                                             fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/RequisitionForm.tsx",
-                                            lineNumber: 52,
+                                            lineNumber: 56,
                                             columnNumber: 15
                                         }, ("TURBOPACK compile-time value", void 0)),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -964,36 +967,6 @@ const RequisitionForm = ({ requisitionId, navigate })=>{
                                             onChange: (e)=>setTitle(e.target.value),
                                             className: "mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md",
                                             required: true
-                                        }, void 0, false, {
-                                            fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/RequisitionForm.tsx",
-                                            lineNumber: 53,
-                                            columnNumber: 15
-                                        }, ("TURBOPACK compile-time value", void 0))
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/RequisitionForm.tsx",
-                                    lineNumber: 51,
-                                    columnNumber: 13
-                                }, ("TURBOPACK compile-time value", void 0)),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    children: [
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
-                                            htmlFor: "amount",
-                                            className: "block text-sm font-medium text-slate-700",
-                                            children: "Amount Requested (₦)"
-                                        }, void 0, false, {
-                                            fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/RequisitionForm.tsx",
-                                            lineNumber: 56,
-                                            columnNumber: 15
-                                        }, ("TURBOPACK compile-time value", void 0)),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                                            type: "number",
-                                            id: "amount",
-                                            value: amount,
-                                            onChange: (e)=>setAmount(e.target.value),
-                                            className: "mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md",
-                                            required: true,
-                                            min: "1"
                                         }, void 0, false, {
                                             fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/RequisitionForm.tsx",
                                             lineNumber: 57,
@@ -1008,22 +981,22 @@ const RequisitionForm = ({ requisitionId, navigate })=>{
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
-                                            htmlFor: "category",
+                                            htmlFor: "amount",
                                             className: "block text-sm font-medium text-slate-700",
-                                            children: "Category"
+                                            children: "Amount Requested (₦)"
                                         }, void 0, false, {
                                             fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/RequisitionForm.tsx",
                                             lineNumber: 60,
                                             columnNumber: 15
                                         }, ("TURBOPACK compile-time value", void 0)),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                                            type: "text",
-                                            id: "category",
-                                            value: category,
-                                            onChange: (e)=>setCategory(e.target.value),
-                                            placeholder: "e.g., Equipment, Supplies, Event",
+                                            type: "number",
+                                            id: "amount",
+                                            value: amount,
+                                            onChange: (e)=>setAmount(e.target.value),
                                             className: "mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md",
-                                            required: true
+                                            required: true,
+                                            min: "1"
                                         }, void 0, false, {
                                             fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/RequisitionForm.tsx",
                                             lineNumber: 61,
@@ -1038,19 +1011,20 @@ const RequisitionForm = ({ requisitionId, navigate })=>{
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
-                                            htmlFor: "dateNeeded",
+                                            htmlFor: "category",
                                             className: "block text-sm font-medium text-slate-700",
-                                            children: "Date Needed By"
+                                            children: "Category"
                                         }, void 0, false, {
                                             fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/RequisitionForm.tsx",
                                             lineNumber: 64,
                                             columnNumber: 15
                                         }, ("TURBOPACK compile-time value", void 0)),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                                            type: "date",
-                                            id: "dateNeeded",
-                                            value: dateNeeded,
-                                            onChange: (e)=>setDateNeeded(e.target.value),
+                                            type: "text",
+                                            id: "category",
+                                            value: category,
+                                            onChange: (e)=>setCategory(e.target.value),
+                                            placeholder: "e.g., Equipment, Supplies, Event",
                                             className: "mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md",
                                             required: true
                                         }, void 0, false, {
@@ -1064,6 +1038,35 @@ const RequisitionForm = ({ requisitionId, navigate })=>{
                                     lineNumber: 63,
                                     columnNumber: 13
                                 }, ("TURBOPACK compile-time value", void 0)),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                            htmlFor: "dateNeeded",
+                                            className: "block text-sm font-medium text-slate-700",
+                                            children: "Date Needed By"
+                                        }, void 0, false, {
+                                            fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/RequisitionForm.tsx",
+                                            lineNumber: 68,
+                                            columnNumber: 15
+                                        }, ("TURBOPACK compile-time value", void 0)),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                            type: "date",
+                                            id: "dateNeeded",
+                                            value: dateNeeded,
+                                            onChange: (e)=>setDateNeeded(e.target.value),
+                                            className: "mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md",
+                                            required: true
+                                        }, void 0, false, {
+                                            fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/RequisitionForm.tsx",
+                                            lineNumber: 69,
+                                            columnNumber: 15
+                                        }, ("TURBOPACK compile-time value", void 0))
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/RequisitionForm.tsx",
+                                    lineNumber: 67,
+                                    columnNumber: 13
+                                }, ("TURBOPACK compile-time value", void 0)),
                                 role !== __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$src$2f$types$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Role"].DEPARTMENT_HEAD && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
@@ -1072,7 +1075,7 @@ const RequisitionForm = ({ requisitionId, navigate })=>{
                                             children: "Department"
                                         }, void 0, false, {
                                             fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/RequisitionForm.tsx",
-                                            lineNumber: 69,
+                                            lineNumber: 73,
                                             columnNumber: 17
                                         }, ("TURBOPACK compile-time value", void 0)),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
@@ -1087,7 +1090,7 @@ const RequisitionForm = ({ requisitionId, navigate })=>{
                                                     children: "Select a department"
                                                 }, void 0, false, {
                                                     fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/RequisitionForm.tsx",
-                                                    lineNumber: 71,
+                                                    lineNumber: 75,
                                                     columnNumber: 19
                                                 }, ("TURBOPACK compile-time value", void 0)),
                                                 departments.map((dept)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -1095,25 +1098,25 @@ const RequisitionForm = ({ requisitionId, navigate })=>{
                                                         children: dept.name
                                                     }, dept.id, false, {
                                                         fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/RequisitionForm.tsx",
-                                                        lineNumber: 72,
+                                                        lineNumber: 76,
                                                         columnNumber: 44
                                                     }, ("TURBOPACK compile-time value", void 0)))
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/RequisitionForm.tsx",
-                                            lineNumber: 70,
+                                            lineNumber: 74,
                                             columnNumber: 17
                                         }, ("TURBOPACK compile-time value", void 0))
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/RequisitionForm.tsx",
-                                    lineNumber: 68,
+                                    lineNumber: 72,
                                     columnNumber: 15
                                 }, ("TURBOPACK compile-time value", void 0))
                             ]
                         }, void 0, true, {
                             fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/RequisitionForm.tsx",
-                            lineNumber: 50,
+                            lineNumber: 54,
                             columnNumber: 11
                         }, ("TURBOPACK compile-time value", void 0)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1124,7 +1127,7 @@ const RequisitionForm = ({ requisitionId, navigate })=>{
                                     children: "Purpose / Description"
                                 }, void 0, false, {
                                     fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/RequisitionForm.tsx",
-                                    lineNumber: 78,
+                                    lineNumber: 82,
                                     columnNumber: 13
                                 }, ("TURBOPACK compile-time value", void 0)),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("textarea", {
@@ -1136,13 +1139,13 @@ const RequisitionForm = ({ requisitionId, navigate })=>{
                                     required: true
                                 }, void 0, false, {
                                     fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/RequisitionForm.tsx",
-                                    lineNumber: 79,
+                                    lineNumber: 83,
                                     columnNumber: 13
                                 }, ("TURBOPACK compile-time value", void 0))
                             ]
                         }, void 0, true, {
                             fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/RequisitionForm.tsx",
-                            lineNumber: 77,
+                            lineNumber: 81,
                             columnNumber: 11
                         }, ("TURBOPACK compile-time value", void 0)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1152,7 +1155,7 @@ const RequisitionForm = ({ requisitionId, navigate })=>{
                                     children: "Attachments (Optional)"
                                 }, void 0, false, {
                                     fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/RequisitionForm.tsx",
-                                    lineNumber: 82,
+                                    lineNumber: 86,
                                     columnNumber: 13
                                 }, ("TURBOPACK compile-time value", void 0)),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1160,7 +1163,7 @@ const RequisitionForm = ({ requisitionId, navigate })=>{
                                     children: "Upload quotes, invoices, or other supporting documents."
                                 }, void 0, false, {
                                     fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/RequisitionForm.tsx",
-                                    lineNumber: 83,
+                                    lineNumber: 87,
                                     columnNumber: 13
                                 }, ("TURBOPACK compile-time value", void 0)),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1170,13 +1173,13 @@ const RequisitionForm = ({ requisitionId, navigate })=>{
                                     className: "mt-1 block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
                                 }, void 0, false, {
                                     fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/RequisitionForm.tsx",
-                                    lineNumber: 84,
+                                    lineNumber: 88,
                                     columnNumber: 13
                                 }, ("TURBOPACK compile-time value", void 0))
                             ]
                         }, void 0, true, {
                             fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/RequisitionForm.tsx",
-                            lineNumber: 81,
+                            lineNumber: 85,
                             columnNumber: 11
                         }, ("TURBOPACK compile-time value", void 0)),
                         error && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1184,7 +1187,7 @@ const RequisitionForm = ({ requisitionId, navigate })=>{
                             children: error
                         }, void 0, false, {
                             fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/RequisitionForm.tsx",
-                            lineNumber: 87,
+                            lineNumber: 91,
                             columnNumber: 21
                         }, ("TURBOPACK compile-time value", void 0)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1198,7 +1201,7 @@ const RequisitionForm = ({ requisitionId, navigate })=>{
                                     children: "Cancel"
                                 }, void 0, false, {
                                     fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/RequisitionForm.tsx",
-                                    lineNumber: 90,
+                                    lineNumber: 94,
                                     columnNumber: 13
                                 }, ("TURBOPACK compile-time value", void 0)),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1208,30 +1211,30 @@ const RequisitionForm = ({ requisitionId, navigate })=>{
                                     children: isSubmitting ? 'Submitting...' : isEditing ? 'Save Changes & Resubmit' : 'Submit Requisition'
                                 }, void 0, false, {
                                     fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/RequisitionForm.tsx",
-                                    lineNumber: 91,
+                                    lineNumber: 95,
                                     columnNumber: 13
                                 }, ("TURBOPACK compile-time value", void 0))
                             ]
                         }, void 0, true, {
                             fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/RequisitionForm.tsx",
-                            lineNumber: 89,
+                            lineNumber: 93,
                             columnNumber: 11
                         }, ("TURBOPACK compile-time value", void 0))
                     ]
                 }, void 0, true, {
                     fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/RequisitionForm.tsx",
-                    lineNumber: 49,
+                    lineNumber: 53,
                     columnNumber: 9
                 }, ("TURBOPACK compile-time value", void 0))
             }, void 0, false, {
                 fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/RequisitionForm.tsx",
-                lineNumber: 48,
+                lineNumber: 52,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0))
         ]
     }, void 0, true, {
         fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/RequisitionForm.tsx",
-        lineNumber: 46,
+        lineNumber: 50,
         columnNumber: 5
     }, ("TURBOPACK compile-time value", void 0));
 };

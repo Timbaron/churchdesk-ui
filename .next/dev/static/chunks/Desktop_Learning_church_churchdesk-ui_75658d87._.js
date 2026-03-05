@@ -1038,7 +1038,7 @@ const RequisitionRow = ({ req, onClick })=>/*#__PURE__*/ (0, __TURBOPACK__import
 _c = RequisitionRow;
 const FinanceDashboard = ({ navigate })=>{
     _s();
-    const { overview, loading } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$src$2f$hooks$2f$useFinance$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useFinance"])();
+    const { overview, loading, error, refresh } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$src$2f$hooks$2f$useFinance$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useFinance"])();
     if (loading) {
         return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
             className: "text-center p-8",
@@ -1049,14 +1049,44 @@ const FinanceDashboard = ({ navigate })=>{
             columnNumber: 16
         }, ("TURBOPACK compile-time value", void 0));
     }
-    if (!overview) {
+    if (error) {
         return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: "text-center p-8",
-            children: "Could not load finance overview. (Section data might be missing)"
-        }, void 0, false, {
+            className: "text-center p-8 text-red-500",
+            children: [
+                "Error: ",
+                error
+            ]
+        }, void 0, true, {
             fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/FinanceDashboard.tsx",
             lineNumber: 36,
             columnNumber: 16
+        }, ("TURBOPACK compile-time value", void 0));
+    }
+    if (!overview) {
+        return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+            className: "text-center p-8 flex flex-col items-center gap-4",
+            children: [
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                    children: "Could not load finance overview. (Section data might be missing)"
+                }, void 0, false, {
+                    fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/FinanceDashboard.tsx",
+                    lineNumber: 42,
+                    columnNumber: 17
+                }, ("TURBOPACK compile-time value", void 0)),
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                    onClick: ()=>refresh(),
+                    className: "px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700",
+                    children: "Retry"
+                }, void 0, false, {
+                    fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/FinanceDashboard.tsx",
+                    lineNumber: 43,
+                    columnNumber: 17
+                }, ("TURBOPACK compile-time value", void 0))
+            ]
+        }, void 0, true, {
+            fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/FinanceDashboard.tsx",
+            lineNumber: 41,
+            columnNumber: 13
         }, ("TURBOPACK compile-time value", void 0));
     }
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1067,7 +1097,7 @@ const FinanceDashboard = ({ navigate })=>{
                 children: "Finance Hub"
             }, void 0, false, {
                 fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/FinanceDashboard.tsx",
-                lineNumber: 41,
+                lineNumber: 55,
                 columnNumber: 13
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1080,7 +1110,7 @@ const FinanceDashboard = ({ navigate })=>{
                                 children: "Awaiting Disbursement"
                             }, void 0, false, {
                                 fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/FinanceDashboard.tsx",
-                                lineNumber: 44,
+                                lineNumber: 58,
                                 columnNumber: 21
                             }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1088,13 +1118,13 @@ const FinanceDashboard = ({ navigate })=>{
                                 children: overview.awaiting_disbursement.length
                             }, void 0, false, {
                                 fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/FinanceDashboard.tsx",
-                                lineNumber: 45,
+                                lineNumber: 59,
                                 columnNumber: 21
                             }, ("TURBOPACK compile-time value", void 0))
                         ]
                     }, void 0, true, {
                         fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/FinanceDashboard.tsx",
-                        lineNumber: 43,
+                        lineNumber: 57,
                         columnNumber: 17
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$src$2f$components$2f$ui$2f$Card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1104,7 +1134,7 @@ const FinanceDashboard = ({ navigate })=>{
                                 children: "Pending Receipt Verification"
                             }, void 0, false, {
                                 fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/FinanceDashboard.tsx",
-                                lineNumber: 48,
+                                lineNumber: 62,
                                 columnNumber: 21
                             }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1112,13 +1142,13 @@ const FinanceDashboard = ({ navigate })=>{
                                 children: overview.pending_verification.length
                             }, void 0, false, {
                                 fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/FinanceDashboard.tsx",
-                                lineNumber: 49,
+                                lineNumber: 63,
                                 columnNumber: 21
                             }, ("TURBOPACK compile-time value", void 0))
                         ]
                     }, void 0, true, {
                         fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/FinanceDashboard.tsx",
-                        lineNumber: 47,
+                        lineNumber: 61,
                         columnNumber: 17
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$src$2f$components$2f$ui$2f$Card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1128,7 +1158,7 @@ const FinanceDashboard = ({ navigate })=>{
                                 children: "Total Disbursed (This Cycle)"
                             }, void 0, false, {
                                 fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/FinanceDashboard.tsx",
-                                lineNumber: 52,
+                                lineNumber: 66,
                                 columnNumber: 21
                             }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1139,19 +1169,19 @@ const FinanceDashboard = ({ navigate })=>{
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/FinanceDashboard.tsx",
-                                lineNumber: 53,
+                                lineNumber: 67,
                                 columnNumber: 21
                             }, ("TURBOPACK compile-time value", void 0))
                         ]
                     }, void 0, true, {
                         fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/FinanceDashboard.tsx",
-                        lineNumber: 51,
+                        lineNumber: 65,
                         columnNumber: 17
                     }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/FinanceDashboard.tsx",
-                lineNumber: 42,
+                lineNumber: 56,
                 columnNumber: 13
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1164,7 +1194,7 @@ const FinanceDashboard = ({ navigate })=>{
                                 children: "Awaiting Disbursement"
                             }, void 0, false, {
                                 fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/FinanceDashboard.tsx",
-                                lineNumber: 59,
+                                lineNumber: 73,
                                 columnNumber: 21
                             }, ("TURBOPACK compile-time value", void 0)),
                             overview.awaiting_disbursement.length > 0 ? overview.awaiting_disbursement.map((req)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(RequisitionRow, {
@@ -1172,20 +1202,20 @@ const FinanceDashboard = ({ navigate })=>{
                                     onClick: ()=>navigate('view_requisition', req.id)
                                 }, req.id, false, {
                                     fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/FinanceDashboard.tsx",
-                                    lineNumber: 61,
+                                    lineNumber: 75,
                                     columnNumber: 67
                                 }, ("TURBOPACK compile-time value", void 0))) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                 className: "text-center text-slate-500 py-8",
                                 children: "No requisitions are pending payment."
                             }, void 0, false, {
                                 fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/FinanceDashboard.tsx",
-                                lineNumber: 62,
+                                lineNumber: 76,
                                 columnNumber: 25
                             }, ("TURBOPACK compile-time value", void 0))
                         ]
                     }, void 0, true, {
                         fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/FinanceDashboard.tsx",
-                        lineNumber: 58,
+                        lineNumber: 72,
                         columnNumber: 17
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$src$2f$components$2f$ui$2f$Card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1195,7 +1225,7 @@ const FinanceDashboard = ({ navigate })=>{
                                 children: "Pending Receipt Verification"
                             }, void 0, false, {
                                 fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/FinanceDashboard.tsx",
-                                lineNumber: 65,
+                                lineNumber: 79,
                                 columnNumber: 21
                             }, ("TURBOPACK compile-time value", void 0)),
                             overview.pending_verification.length > 0 ? overview.pending_verification.map((req)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(RequisitionRow, {
@@ -1203,26 +1233,26 @@ const FinanceDashboard = ({ navigate })=>{
                                     onClick: ()=>navigate('view_requisition', req.id)
                                 }, req.id, false, {
                                     fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/FinanceDashboard.tsx",
-                                    lineNumber: 67,
+                                    lineNumber: 81,
                                     columnNumber: 66
                                 }, ("TURBOPACK compile-time value", void 0))) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                 className: "text-center text-slate-500 py-8",
                                 children: "No receipts to verify."
                             }, void 0, false, {
                                 fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/FinanceDashboard.tsx",
-                                lineNumber: 68,
+                                lineNumber: 82,
                                 columnNumber: 25
                             }, ("TURBOPACK compile-time value", void 0))
                         ]
                     }, void 0, true, {
                         fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/FinanceDashboard.tsx",
-                        lineNumber: 64,
+                        lineNumber: 78,
                         columnNumber: 17
                     }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/FinanceDashboard.tsx",
-                lineNumber: 57,
+                lineNumber: 71,
                 columnNumber: 13
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$src$2f$components$2f$ui$2f$Card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1232,7 +1262,7 @@ const FinanceDashboard = ({ navigate })=>{
                         children: "Recently Completed Requisitions"
                     }, void 0, false, {
                         fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/FinanceDashboard.tsx",
-                        lineNumber: 72,
+                        lineNumber: 86,
                         columnNumber: 17
                     }, ("TURBOPACK compile-time value", void 0)),
                     overview.recently_completed.length > 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1248,7 +1278,7 @@ const FinanceDashboard = ({ navigate })=>{
                                                 children: req.id
                                             }, void 0, false, {
                                                 fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/FinanceDashboard.tsx",
-                                                lineNumber: 79,
+                                                lineNumber: 93,
                                                 columnNumber: 41
                                             }, ("TURBOPACK compile-time value", void 0)),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -1256,7 +1286,7 @@ const FinanceDashboard = ({ navigate })=>{
                                                 children: req.title
                                             }, void 0, false, {
                                                 fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/FinanceDashboard.tsx",
-                                                lineNumber: 80,
+                                                lineNumber: 94,
                                                 columnNumber: 41
                                             }, ("TURBOPACK compile-time value", void 0)),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -1267,7 +1297,7 @@ const FinanceDashboard = ({ navigate })=>{
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/FinanceDashboard.tsx",
-                                                lineNumber: 81,
+                                                lineNumber: 95,
                                                 columnNumber: 41
                                             }, ("TURBOPACK compile-time value", void 0)),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -1276,56 +1306,56 @@ const FinanceDashboard = ({ navigate })=>{
                                                     status: __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$src$2f$types$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["RequisitionStatus"].COMPLETED
                                                 }, void 0, false, {
                                                     fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/FinanceDashboard.tsx",
-                                                    lineNumber: 82,
+                                                    lineNumber: 96,
                                                     columnNumber: 61
                                                 }, ("TURBOPACK compile-time value", void 0))
                                             }, void 0, false, {
                                                 fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/FinanceDashboard.tsx",
-                                                lineNumber: 82,
+                                                lineNumber: 96,
                                                 columnNumber: 41
                                             }, ("TURBOPACK compile-time value", void 0))
                                         ]
                                     }, req.id, true, {
                                         fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/FinanceDashboard.tsx",
-                                        lineNumber: 78,
+                                        lineNumber: 92,
                                         columnNumber: 37
                                     }, ("TURBOPACK compile-time value", void 0)))
                             }, void 0, false, {
                                 fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/FinanceDashboard.tsx",
-                                lineNumber: 76,
+                                lineNumber: 90,
                                 columnNumber: 29
                             }, ("TURBOPACK compile-time value", void 0))
                         }, void 0, false, {
                             fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/FinanceDashboard.tsx",
-                            lineNumber: 75,
+                            lineNumber: 89,
                             columnNumber: 25
                         }, ("TURBOPACK compile-time value", void 0))
                     }, void 0, false, {
                         fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/FinanceDashboard.tsx",
-                        lineNumber: 74,
+                        lineNumber: 88,
                         columnNumber: 21
                     }, ("TURBOPACK compile-time value", void 0)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                         className: "text-center text-slate-500 py-8",
                         children: "No requisitions have been completed recently."
                     }, void 0, false, {
                         fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/FinanceDashboard.tsx",
-                        lineNumber: 88,
+                        lineNumber: 102,
                         columnNumber: 21
                     }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/FinanceDashboard.tsx",
-                lineNumber: 71,
+                lineNumber: 85,
                 columnNumber: 13
             }, ("TURBOPACK compile-time value", void 0))
         ]
     }, void 0, true, {
         fileName: "[project]/Desktop/Learning/church/churchdesk-ui/src/components/FinanceDashboard.tsx",
-        lineNumber: 40,
+        lineNumber: 54,
         columnNumber: 9
     }, ("TURBOPACK compile-time value", void 0));
 };
-_s(FinanceDashboard, "k/kDK+Jcf79qpxstn1R7k1Hth1k=", false, function() {
+_s(FinanceDashboard, "nB4hO5udNwaE94yRVv/QT96lN0k=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$src$2f$hooks$2f$useFinance$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useFinance"]
     ];

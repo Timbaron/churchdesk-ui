@@ -117,7 +117,7 @@ const RequisitionDetail: React.FC<RequisitionDetailProps> = ({ requisitionId, na
         e.preventDefault();
         if (!finalReceiptFile) return;
         try {
-            await actions.uploadReceipt(finalReceiptFile.name);
+            await actions.uploadReceipt(finalReceiptFile);
             setModal(null);
         } catch (err: any) {
             alert(`Failed to upload receipt: ${err.message}`);

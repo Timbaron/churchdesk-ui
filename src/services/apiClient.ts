@@ -215,11 +215,15 @@ export const disbursePayment = (
 
 export const uploadFinalReceipt = (
     reqId: string,
-    receiptFileName: string,
+    receiptFile: File,
 ): Promise<Requisition> => {
+    const formData = new FormData();
+    formData.append('receipt', receiptFile);
+    // Optionally include original filename if needed by backend
+    formData.append('receiptFileName', receiptFile.name);
     return request<Requisition>(`/requisitions/${reqId}/upload-receipt`, {
         method: 'POST',
-        body: JSON.stringify({ receiptFileName }), // In a real app, this would be a file upload
+        body: formData,
     });
 };
 

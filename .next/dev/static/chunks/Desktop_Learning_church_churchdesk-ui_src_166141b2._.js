@@ -948,11 +948,11 @@ const useRequisitionDetail = (requisitionId)=>{
             setIsSubmitting(false);
         }
     };
-    const uploadReceipt = async (fileName)=>{
+    const uploadReceipt = async (receiptFile)=>{
         if (!requisition || !currentUser) return;
         setIsSubmitting(true);
         try {
-            const updated = await __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$src$2f$services$2f$apiClient$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["uploadFinalReceipt"](requisition.id, fileName);
+            const updated = await __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$src$2f$services$2f$apiClient$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["uploadFinalReceipt"](requisition.id, receiptFile);
             setRequisition(updated);
             return updated;
         } catch (err) {
@@ -978,7 +978,7 @@ const useRequisitionDetail = (requisitionId)=>{
         if (!requisition || !currentUser) return false;
         const { status, approvals, requested_by_id, department_id, section_id } = requisition;
         const { role, id, department_id: user_dept_id, section_id: user_sect_id } = currentUser;
-        const hasAlreadyActed = approvals.some((a)=>a.approver_id === id);
+        const hasAlreadyActed = approvals?.some((a)=>a.approver_id === id);
         if (hasAlreadyActed) return false;
         if (status === __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Learning$2f$church$2f$churchdesk$2d$ui$2f$src$2f$types$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["RequisitionStatus"].PENDING) {
             const requester = churchData.users.find((u)=>u.id === requested_by_id);
@@ -1357,7 +1357,7 @@ const RequisitionDetail = ({ requisitionId, navigate })=>{
         e.preventDefault();
         if (!finalReceiptFile) return;
         try {
-            await actions.uploadReceipt(finalReceiptFile.name);
+            await actions.uploadReceipt(finalReceiptFile);
             setModal(null);
         } catch (err) {
             alert(`Failed to upload receipt: ${err.message}`);

@@ -26,14 +26,28 @@ const RequisitionRow: React.FC<{ req: Requisition, onClick: () => void }> = ({ r
 
 
 const FinanceDashboard: React.FC<FinanceDashboardProps> = ({ navigate }) => {
-    const { overview, loading } = useFinance();
+    const { overview, loading, error, refresh } = useFinance();
 
     if (loading) {
         return <div className="text-center p-8">Loading finance data...</div>;
     }
 
+    if (error) {
+        return <div className="text-center p-8 text-red-500">Error: {error}</div>;
+    }
+
     if (!overview) {
-        return <div className="text-center p-8">Could not load finance overview. (Section data might be missing)</div>;
+        return (
+            <div className="text-center p-8 flex flex-col items-center gap-4">
+                <p>Could not load finance overview. (Section data might be missing)</p>
+                <button
+                    onClick={() => refresh()}
+                    className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                >
+                    Retry
+                </button>
+            </div>
+        );
     }
 
     return (

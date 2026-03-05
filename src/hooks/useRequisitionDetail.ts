@@ -73,11 +73,11 @@ export const useRequisitionDetail = (requisitionId: string) => {
         }
     };
 
-    const uploadReceipt = async (fileName: string) => {
+    const uploadReceipt = async (receiptFile: File) => {
         if (!requisition || !currentUser) return;
         setIsSubmitting(true);
         try {
-            const updated = await apiClient.uploadFinalReceipt(requisition.id, fileName);
+            const updated = await apiClient.uploadFinalReceipt(requisition.id, receiptFile);
             setRequisition(updated);
             return updated;
         } catch (err: any) {
@@ -106,7 +106,7 @@ export const useRequisitionDetail = (requisitionId: string) => {
         const { status, approvals, requested_by_id, department_id, section_id } = requisition;
         const { role, id, department_id: user_dept_id, section_id: user_sect_id } = currentUser;
 
-        const hasAlreadyActed = approvals.some(a => a.approver_id === id);
+        const hasAlreadyActed = approvals?.some(a => a.approver_id === id);
         if (hasAlreadyActed) return false;
 
         if (status === RequisitionStatus.PENDING) {
