@@ -1,0 +1,25 @@
+{
+  "pages": {
+    "/_app": []
+  },
+  "devFiles": [],
+  "polyfillFiles": [
+    "static/chunks/cd629_next_dist_build_polyfills_polyfill-nomodule.js"
+  ],
+  "lowPriorityFiles": [
+    "static/development/_ssgManifest.js",
+    "static/development/_buildManifest.js"
+  ],
+  "rootMainFiles": [
+    "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_8aa9bcb9._.js",
+    "static/chunks/cd629_next_dist_compiled_react-dom_cea7513e._.js",
+    "static/chunks/cd629_next_dist_compiled_react-server-dom-turbopack_93aa6bc1._.js",
+    "static/chunks/cd629_next_dist_compiled_next-devtools_index_b35f1ef3.js",
+    "static/chunks/cd629_next_dist_compiled_af622744._.js",
+    "static/chunks/cd629_next_dist_client_acd549a1._.js",
+    "static/chunks/cd629_next_dist_08ebbdd6._.js",
+    "static/chunks/cd629_@swc_helpers_cjs_870136a1._.js",
+    "static/chunks/Desktop_Learning_church_churchdesk-ui_a0ff3932._.js",
+    "static/chunks/turbopack-Desktop_Learning_church_churchdesk-ui_4828927d._.js"
+  ]
+}
