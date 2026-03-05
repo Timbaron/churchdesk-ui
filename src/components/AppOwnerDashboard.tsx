@@ -209,7 +209,7 @@ const AppOwnerDashboard: React.FC = () => {
                     <Card>
                         <h2 className="text-xl font-semibold text-slate-700 mb-4">Recent Platform Activity</h2>
                         <ul className="space-y-4">
-                            {platformData.recent_activities.map(activity => (
+                            {platformData.recent_activities?.map(activity => (
                                 <li key={activity.id} className="flex items-start gap-4">
                                     <ActivityIcon category={activity.category} />
                                     <div>

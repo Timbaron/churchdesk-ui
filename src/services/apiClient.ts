@@ -85,7 +85,9 @@ async function request<T>(
     options: RequestInit = {},
 ): Promise<T> {
     const headers = new Headers(options.headers || {});
-    headers.set('Content-Type', 'application/json');
+    if (!(options.body instanceof FormData)) {
+        headers.set('Content-Type', 'application/json');
+    }
     headers.set('Accept', 'application/json');
 
     const token = await getAuthToken();
@@ -153,33 +155,28 @@ export const getRequisitionById = (
 };
 
 export const createRequisition = (
-    data: Omit<
-        Requisition,
-        | 'id'
-        | 'status'
-        | 'created_at'
-        | 'updated_at'
-        | 'activity_log'
-        | 'approvals'
-        | 'payment'
-        | 'final_receipt'
-        | 'requested_by'
-        | 'department'
-    >,
+    data: any, // Accepts standard Object or FormData
 ): Promise<Requisition> => {
+    const isFormData = typeof FormData !== 'undefined' && data instanceof FormData;
     return request<Requisition>('/requisitions', {
         method: 'POST',
-        body: JSON.stringify(data),
+        body: isFormData ? data : JSON.stringify(data),
     });
 };
 
 export const updateRequisition = (
     id: string,
-    data: Partial<Requisition>,
+    data: any, // Accepts standard Object or FormData
 ): Promise<Requisition> => {
+    const isFormData = typeof FormData !== 'undefined' && data instanceof FormData;
+    let method = 'PUT';
+    if (isFormData) {
+        method = 'POST'; // Laravel work-around for multipart/form-data
+        data.append('_method', 'PUT');
+    }
     return request<Requisition>(`/requisitions/${id}`, {
-        method: 'PUT',
-        body: JSON.stringify(data),
+        method,
+        body: isFormData ? data : JSON.stringify(data),
     });
 };
 

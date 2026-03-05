@@ -73,18 +73,20 @@ export const useRequisitionForm = (requisitionId?: string) => {
         setIsSubmitting(true);
         setError(null);
 
-        const requisitionData = {
-            title,
-            amount_requested: parseFloat(amount),
-            category,
-            date_needed: dateNeeded,
-            purpose,
-            department_id: departmentId,
-            section_id: currentUser.section_id!,
-            church_id: currentUser.church_id,
-            requested_by_id: currentUser.id,
-            attachments: attachments.map(f => ({ name: f.name, url: '#' })),
-        };
+        const requisitionData = new FormData();
+        requisitionData.append('title', title);
+        requisitionData.append('amount_requested', parseFloat(amount).toString());
+        requisitionData.append('category', category);
+        requisitionData.append('date_needed', dateNeeded);
+        requisitionData.append('purpose', purpose);
+        requisitionData.append('department_id', departmentId);
+        requisitionData.append('section_id', currentUser.section_id!);
+        requisitionData.append('church_id', currentUser.church_id!);
+        requisitionData.append('requested_by_id', currentUser.id);
+
+        attachments.forEach((file, index) => {
+            requisitionData.append(`attachments[${index}]`, file);
+        });
 
         try {
             let savedRequisition;

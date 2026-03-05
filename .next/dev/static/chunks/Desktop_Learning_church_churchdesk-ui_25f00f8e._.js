@@ -107,7 +107,9 @@ const clearAuthUserId = ()=>{
 };
 async function request(endpoint, options = {}) {
     const headers = new Headers(options.headers || {});
-    headers.set('Content-Type', 'application/json');
+    if (!(options.body instanceof FormData)) {
+        headers.set('Content-Type', 'application/json');
+    }
     headers.set('Accept', 'application/json');
     const token = await getAuthToken();
     if (token) {
@@ -156,15 +158,22 @@ const getRequisitionById = (id)=>{
     return request(`/requisitions/${id}`);
 };
 const createRequisition = (data)=>{
+    const isFormData = typeof FormData !== 'undefined' && data instanceof FormData;
     return request('/requisitions', {
         method: 'POST',
-        body: JSON.stringify(data)
+        body: isFormData ? data : JSON.stringify(data)
     });
 };
 const updateRequisition = (id, data)=>{
+    const isFormData = typeof FormData !== 'undefined' && data instanceof FormData;
+    let method = 'PUT';
+    if (isFormData) {
+        method = 'POST'; // Laravel work-around for multipart/form-data
+        data.append('_method', 'PUT');
+    }
     return request(`/requisitions/${id}`, {
-        method: 'PUT',
-        body: JSON.stringify(data)
+        method,
+        body: isFormData ? data : JSON.stringify(data)
     });
 };
 const getFinancialSummary = (sectionId)=>{
